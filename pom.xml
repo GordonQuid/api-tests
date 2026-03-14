@@ -22,6 +22,8 @@
         <surefire.plugin.version>3.5.4</surefire.plugin.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
         <spotbugs.maven.plugin.version>4.9.8.2</spotbugs.maven.plugin.version>
+        <slf4j.api.version>2.0.9</slf4j.api.version>
+        <logback.classic.version>1.4.14</logback.classic.version>
     </properties>
 
     <dependencies>
@@ -57,6 +59,17 @@
             <version>${jsoup.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.classic.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
