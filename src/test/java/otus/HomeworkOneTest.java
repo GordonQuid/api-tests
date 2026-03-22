@@ -10,7 +10,7 @@ import pages.CoursesPage;
 import pages.MainPage;
 
 @ExtendWith(UIExtensions.class)
-public class homeworkOneTest {
+public class HomeworkOneTest {
 
   @Inject
   private CoursesPage coursesPage;
