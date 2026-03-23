@@ -19,7 +19,7 @@ public class HomeworkOneTest {
   private MainPage mainPage;
 
   @ParameterizedTest
-  @ValueSource(strings = {"Архитектура и шаблоны проектирования", "Agile Project Manager"})
+  @ValueSource(strings = {"Архитектура и шаблоны проектирования", "Менеджер Agile-проектов"})
   public void findCourseByTitleTest(String courseName) {
     coursesPage.open()
         .openCourseByTitle(courseName)
