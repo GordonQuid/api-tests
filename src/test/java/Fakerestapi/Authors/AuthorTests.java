@@ -2,21 +2,37 @@ package Fakerestapi.Authors;
 
 import dto.AuthorsDTO;
 import dto.AuthorsResponseDTO;
+import com.google.inject.Inject;
+import extensions.GuiceExtension;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import services.AuthorsApi;
 
-
+@ExtendWith(GuiceExtension.class)
 public class AuthorTests {
+
+  @Inject
+  private AuthorsApi authorsApi;
+
+  private Integer createdAuthorId;
+
+  @AfterEach
+  void cleanup() {
+    if (createdAuthorId != null) {
+      authorsApi.deleteAuthor(createdAuthorId)
+          .statusCode(HttpStatus.SC_OK);
+      createdAuthorId = null;
+    }
+  }
 
   @Test
   void createAuthorTest() {
 
     //Проверяем корректное создание автора
-
-    AuthorsApi authorsApi = new AuthorsApi();
 
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
@@ -24,6 +40,8 @@ public class AuthorTests {
         .firstName("First Name 1")
         .lastName("Last Name 1")
         .build();
+
+    createdAuthorId = authorDTO.getId();
 
     AuthorsResponseDTO createAuthorResponse = authorsApi.createAuthor(authorDTO)
         .statusCode(HttpStatus.SC_OK)
@@ -52,13 +70,13 @@ public class AuthorTests {
 
     //Проверяем необязательность поля IdBook при создании автора
 
-    AuthorsApi authorsApi = new AuthorsApi();
-
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
         .firstName("First Name 1")
         .lastName("Last Name 1")
         .build();
+
+    createdAuthorId = authorDTO.getId();
 
     AuthorsResponseDTO createAuthorResponse = authorsApi.createAuthor(authorDTO)
         .statusCode(HttpStatus.SC_OK)
@@ -86,14 +104,14 @@ public class AuthorTests {
 
     //Проверяем корректное обновление автора
 
-    AuthorsApi authorsApi = new AuthorsApi();
-
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
         .idBook(1)
         .firstName("First Name 1")
         .lastName("Last Name 1")
         .build();
+
+    createdAuthorId = authorDTO.getId();
 
     authorsApi.createAuthor(authorDTO).statusCode(HttpStatus.SC_OK);
 
@@ -122,14 +140,14 @@ public class AuthorTests {
 
     //Проверяем обновление автора без передачи полей firstName и lastName
 
-    AuthorsApi authorsApi = new AuthorsApi();
-
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
         .idBook(1)
         .firstName("First Name 1")
         .lastName("Last Name 1")
         .build();
+
+    createdAuthorId = authorDTO.getId();
 
     authorsApi.createAuthor(authorDTO).statusCode(HttpStatus.SC_OK);
 

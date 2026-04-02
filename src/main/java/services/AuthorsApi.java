@@ -1,25 +1,27 @@
 package services;
 
 import static io.restassured.RestAssured.given;
+
 import dto.AuthorsDTO;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
 public class AuthorsApi {
-  private static final String BASE_URL = "https://fakerestapi.azurewebsites.net";
   private static final String API_PATH = "/api/v1";
   private static final String AUTHORS = "/Authors";
   private static final String ID = "/{id}";
   private RequestSpecification spec;
 
   public AuthorsApi() {
-    spec =
-        given()
-            .baseUri(BASE_URL)
-            .basePath(API_PATH)
-            .contentType(ContentType.JSON)
-            .log().all();
+    String baseUrl = System.getProperty("base.url");
+    spec = new RequestSpecBuilder()
+        .setBaseUri(baseUrl)
+        .setBasePath(API_PATH)
+        .setContentType(ContentType.JSON)
+        .log(io.restassured.filter.log.LogDetail.ALL)
+        .build();
   }
 
   public ValidatableResponse createAuthor(AuthorsDTO author) {
@@ -50,4 +52,12 @@ public class AuthorsApi {
         .log().all();
   }
 
+  public ValidatableResponse deleteAuthor(int id) {
+    return given(spec)
+        .pathParam("id", id)
+        .when()
+        .delete(AUTHORS + ID)
+        .then()
+        .log().all();
+  }
 }

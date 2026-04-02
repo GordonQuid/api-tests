@@ -8,5 +8,12 @@
 ## Запуск
 
 Из корневой директории проекта выполнить команду:
-```bash
-    mvn clean test
+```
+mvn clean test
+```
+
+По умолчанию тесты запускаются на `https://fakerestapi.azurewebsites.net`.
+Чтобы указать другой URL:
+```
+mvn clean test -Dbase.url=https://dev.fakerestapi.azurewebsites.net
+```
