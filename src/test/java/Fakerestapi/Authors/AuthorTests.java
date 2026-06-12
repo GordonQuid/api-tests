@@ -4,15 +4,22 @@ import dto.AuthorsDTO;
 import dto.AuthorsResponseDTO;
 import com.google.inject.Inject;
 import extensions.GuiceExtension;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import services.AuthorsApi;
 
 @ExtendWith(GuiceExtension.class)
+@Epic("Тесты AuthorsApi")
+@Story("REST")
+@DisplayName("Тесты AuthorsApi REST")
 public class AuthorTests {
 
   @Inject
@@ -30,9 +37,9 @@ public class AuthorTests {
   }
 
   @Test
+  @DisplayName("Проверяем корректное создание автора")
+  @Feature("Создание автора")
   void createAuthorTest() {
-
-    //Проверяем корректное создание автора
 
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
@@ -66,9 +73,9 @@ public class AuthorTests {
   }
 
   @Test
+  @DisplayName("Проверяем необязательность поля IdBook при создании автора")
+  @Feature("Создание автора")
   void createAuthorWithoutIdBookTest() {
-
-    //Проверяем необязательность поля IdBook при создании автора
 
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
@@ -100,9 +107,9 @@ public class AuthorTests {
   }
 
   @Test
+  @DisplayName("Проверяем корректное обновление автора")
+  @Feature("Обновление автора")
   void updateAuthorTest() {
-
-    //Проверяем корректное обновление автора
 
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)
@@ -136,9 +143,9 @@ public class AuthorTests {
   }
 
   @Test
+  @DisplayName("Проверяем обновление автора без передачи полей firstName и lastName")
+  @Feature("Обновление автора")
   void updateAuthorTestWithoutFirstName() {
-
-    //Проверяем обновление автора без передачи полей firstName и lastName
 
     AuthorsDTO authorDTO = AuthorsDTO.builder()
         .id(1)

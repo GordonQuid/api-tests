@@ -1,0 +1,15 @@
+- name: Run api tests
+  hosts: localhost
+  tasks:
+    - name: Pull test image
+      community.docker.docker_image:
+        name: localhost:5005/api-tests
+        tag: "{{ branch }}"
+        source: pull
+
+    - name: Run tests
+      community.docker.docker_container:
+        name: api-tests
+        image: "localhost:5005/api-tests:{{ branch }}"
+        detach: false
+        auto_remove: true

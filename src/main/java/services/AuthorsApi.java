@@ -3,6 +3,7 @@ package services;
 import static io.restassured.RestAssured.given;
 
 import dto.AuthorsDTO;
+import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -24,6 +25,7 @@ public class AuthorsApi {
         .build();
   }
 
+  @Step("Создать автора")
   public ValidatableResponse createAuthor(AuthorsDTO author) {
     return given(spec)
         .body(author)
@@ -33,6 +35,7 @@ public class AuthorsApi {
         .log().all();
   }
 
+  @Step("Получение данныхе автора с {id}")
   public ValidatableResponse getAuthor(int id) {
     return given(spec)
         .pathParam("id", id)
@@ -42,6 +45,7 @@ public class AuthorsApi {
         .log().all();
   }
 
+  @Step("Обновление автора с id={id} данными: {author}")
   public ValidatableResponse updateAuthor(AuthorsDTO author, int id) {
     return given(spec)
         .pathParam("id", id)
@@ -52,6 +56,7 @@ public class AuthorsApi {
         .log().all();
   }
 
+  @Step("Удалить автора с {id}")
   public ValidatableResponse deleteAuthor(int id) {
     return given(spec)
         .pathParam("id", id)
