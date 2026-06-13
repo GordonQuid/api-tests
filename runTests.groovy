@@ -1,7 +1,7 @@
 node("runner") {
     timestamps {
         wrap([$class: "BuildUser"]) {
-            currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${env.BRANCH}"
+            currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${params.BRANCH}"
         }
         try {
             stage("Checkout") {
@@ -10,7 +10,7 @@ node("runner") {
             stage("Running tests") {
                 ansiblePlaybook playbook: "playbook.yml",
                         extraVars: [
-                                branch: "${env.BRANCH}"
+                                branch: "${params.BRANCH}"
                         ]
             }
         } finally {
