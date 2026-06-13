@@ -1,4 +1,4 @@
-node("jenkins-ansible-agent") {
+node("runner") {
     timestamps {
         wrap([$class: "BuildUser"]) {
             currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${env.BRANCH}"

@@ -1,4 +1,4 @@
-node("jenkins-docker-agent") {
+node("image-builder") {
     timestamps {
         wrap([$class: "BuildUser"]) {
             currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${env.BRANCH}"
