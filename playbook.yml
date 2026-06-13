@@ -3,13 +3,13 @@
   tasks:
     - name: Pull test image
       community.docker.docker_image:
-        name: localhost:5005/api-tests
-        tag: "{{ branch }}"
+        name: "localhost:5005/{{ branch }}"
+        tag: latest
         source: pull
 
     - name: Run tests
       community.docker.docker_container:
-        name: api-tests
-        image: "localhost:5005/api-tests:{{ branch }}"
+        name: "{{ branch }}-tests"
+        image: "localhost:5005/{{ branch }}:latest"
         detach: false
         auto_remove: true
