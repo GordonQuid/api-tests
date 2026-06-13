@@ -1,7 +1,7 @@
 node("image-builder") {
     timestamps {
         wrap([$class: "BuildUser"]) {
-            currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${env.BRANCH}"
+            currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${params.BRANCH}"
         }
         try {
             stage("Checkout") {
@@ -9,7 +9,7 @@ node("image-builder") {
             }
             stage("Build Docker image") {
                 docker.withRegistry("http://localhost:5005") {
-                    docker.build("api-tests:${env.BRANCH}").push()
+                    docker.build("${params.BRANCH}:latest").push()
                 }
             }
         } finally {
