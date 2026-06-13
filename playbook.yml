@@ -12,4 +12,16 @@
         name: "{{ branch }}-tests"
         image: "localhost:5005/{{ branch }}:latest"
         detach: false
-        auto_remove: true
+        cleanup: true
+      register: result
+
+    - name: Remove container
+      community.docker.docker_container:
+        name: "{{ branch }}-tests"
+        state: absent
+      when: result is defined
+
+    - name: Check test results
+      fail:
+        msg: "Tests failed with exit code {{ result.container.State.ExitCode }}"
+      when: result.container.State.ExitCode != 0
