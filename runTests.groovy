@@ -8,6 +8,8 @@ node("runner") {
                 checkout scm
             }
             stage("Running tests") {
+                sh "pwd"
+                sh "echo WORKSPACE=${env.WORKSPACE}"
                 ansiblePlaybook playbook: "playbook.yml",
                         extraVars: [
                                 branch: "${params.BRANCH}"
