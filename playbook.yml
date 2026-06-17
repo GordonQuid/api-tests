@@ -29,5 +29,5 @@
             target: "/var/run/docker.sock"
           - type: bind
             source: "/etc/jenkins/jenkins_home/workspace/api-tests-run/allure-results"
-            target: "/otusSelenium/target/allure-results"
+            target: "/allure/target/allure-results"
         detach: false
