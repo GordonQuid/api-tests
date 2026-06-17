@@ -17,7 +17,7 @@ node("runner") {
             }
             stage("Allure report") {
                 allure(
-                        results: [[path: "/etc/jenkins/jenkins_home/workspace/root/jenkins/workspace/api-tests-run/allure-results"]],
+                        results: [[path: "allure-results"]],
                         disable: false,
                         reportBuildPolicy: "ALWAYS"
                 )
