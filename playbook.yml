@@ -17,7 +17,7 @@
 
     - name: Allure results exist
       ansible.builtin.file:
-        path: "/etc/jenkins/jenkins_home{{ pwd_result.stdout }}/allure-results"
+        path: "{ pwd_result.stdout }}/allure-results"
         state: directory
         mode: '0755'
 
@@ -33,6 +33,6 @@
             source: "/var/run/docker.sock"
             target: "/var/run/docker.sock"
           - type: bind
-            source: "/etc/jenkins/jenkins_home{{ pwd_result.stdout }}/allure-results"
+            source: "/etc/jenkins/jenkins_home/workspace{{ pwd_result.stdout }}/allure-results"
             target: "/allure/target/allure-results"
         detach: false
