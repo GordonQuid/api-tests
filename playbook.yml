@@ -28,6 +28,6 @@
             source: "/var/run/docker.sock"
             target: "/var/run/docker.sock"
           - type: bind
-            source: "{{ pwd_result.stdout | replace('/var/jenkins_home', '/etc/jenkins/jenkins_home') }}/allure-results"
+            source: "/etc/jenkins/jenkins_home/workspace/api-tests-run/allure-results"
             target: "/otusSelenium/target/allure-results"
         detach: false
