@@ -15,6 +15,7 @@
       ansible.builtin.file:
         path: "{{ pwd_result.stdout }}/allure-results"
         state: directory
+        mode: '0755'
 
     - name: Run tests
       ignore_errors: true
@@ -28,6 +29,6 @@
             source: "/var/run/docker.sock"
             target: "/var/run/docker.sock"
           - type: bind
-            source: "/etc/jenkins/jenkins_home/workspace/api-tests-run/allure-results"
+            source: "{{ pwd_result.stdout }}/allure-results"
             target: "/allure/target/allure-results"
         detach: false
