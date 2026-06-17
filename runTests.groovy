@@ -13,6 +13,13 @@ node("runner") {
                                 branch: "${params.BRANCH}"
                         ]
             }
+            stage("Allure report") {
+                allure(
+                        results: [[path: "allure-results"]],
+                        disable: false,
+                        reportBuildPolicy: "ALWAYS"
+                )
+            }
         } finally {
             deleteDir()
         }

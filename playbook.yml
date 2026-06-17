@@ -7,21 +7,27 @@
         tag: latest
         source: pull
 
+    - name: Get current workdir
+      ansible.builtin.command: pwd
+      register: pwd_result
+
+    - name: Allure results exist
+      ansible.builtin.file:
+        path: "{{ pwd_result.stdout }}/allure-results"
+        state: directory
+
     - name: Run tests
+      ignore_errors: true
       community.docker.docker_container:
         name: "{{ branch }}-tests"
         image: "localhost:5005/{{ branch }}:latest"
+        state: started
+        network_mode: host
+        mounts:
+          - type: bind
+            source: "/var/run/docker.sock"
+            target: "/var/run/docker.sock"
+          - type: bind
+            source: "/etc/jenkins/jenkins_home{{ pwd_result.stdout }}/allure-results"
+            target: "/otusSelenium/target/allure-results"
         detach: false
-        cleanup: true
-      register: result
-
-    - name: Remove container
-      community.docker.docker_container:
-        name: "{{ branch }}-tests"
-        state: absent
-      when: result is defined
-
-    - name: Check test results
-      fail:
-        msg: "Tests failed with exit code {{ result.container.State.ExitCode }}"
-      when: result.container.State.ExitCode != 0
