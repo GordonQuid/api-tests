@@ -40,10 +40,15 @@ node("runner") {
                         string(credentialsId: "mattermost-users", variable: "USERS")
                 ]) {
                     env.USERS.tokenize(",").each { username ->
+                        def payload = writeJSON returnText: true, json: [
+                                text    : message,
+                                channel : "@${username}",
+                                username: "Jenkins"
+                        ]
                         httpRequest consoleLogResponseBody: true,
                                 contentType: "APPLICATION_JSON",
                                 httpMode: "POST",
-                                requestBody: "{\"text\":\"$message\", \"channel\":\"@$username\", \"username\",:\"Jenkins\"}",
+                                requestBody: payload,
                                 url: "${env.WEBHOOK}"
                     }
                 }
