@@ -43,7 +43,7 @@ node("runner") {
                         httpRequest consoleLogResponseBody: true,
                                 contentType: "APPLICATION_JSON",
                                 httpMode: "POST",
-                                requestBody: "{\"text\":\"${safeMessage}\",\"channel\":\"@${username}\",\"username\":\"Jenkins\"}",
+                                requestBody: "{\"text\":\"${message}\",\"channel\":\"@${username}\",\"username\":\"Jenkins\"}",
                                 url: "${env.WEBHOOK}"
                     }
                 }
