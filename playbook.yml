@@ -11,13 +11,15 @@
       ansible.builtin.command: pwd
       register: pwd_result
 
-    - name: Debug pwd
-      ansible.builtin.debug:
-        msg: "pwd is: {{ pwd_result.stdout }}"
-
     - name: Allure results exist
       ansible.builtin.file:
         path: "{{ pwd_result.stdout }}/allure-results"
+        state: directory
+        mode: '0755'
+
+    - name: Junit results exist
+      ansible.builtin.file:
+        path: "{{ pwd_result.stdout }}/surefire-reports"
         state: directory
         mode: '0755'
 
@@ -35,4 +37,7 @@
           - type: bind
             source: "/etc/jenkins/jenkins_home/workspace{{ pwd_result.stdout }}/allure-results"
             target: "/allure/target/allure-results"
+          - type: bind
+            source: "/etc/jenkins/jenkins_home/workspace{{ pwd_result.stdout }}/surefire-reports"
+            target: "/allure/target/surefire-reports"
         detach: false
