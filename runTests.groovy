@@ -1,20 +1,41 @@
 node("runner") {
     timestamps {
+        def branch = params.BRANCH
+        def imageName = params.IMAGE_NAME
+        def version = params.VERSION
+        def mvnArgs = params.MVN_ARGS
+
         wrap([$class: "BuildUser"]) {
-            currentBuild.description = "USER: ${env.BUILD_USER}\nBRANCH: ${params.BRANCH}"
+            currentBuild.description = """
+USER: ${env.BUILD_USER}
+BRANCH: ${branch}
+IMAGE_NAME: ${imageName}
+VERSION: ${version}
+"""
         }
+
         try {
             stage("Checkout") {
                 checkout scm
             }
+
             stage("Running tests") {
                 sh "pwd"
                 sh "echo WORKSPACE=${env.WORKSPACE}"
+                sh "echo BRANCH=${branch}"
+                sh "echo IMAGE_NAME=${imageName}"
+                sh "echo VERSION=${version}"
+
                 ansiblePlaybook playbook: "playbook.yml",
                         extraVars: [
-                                branch: "${params.BRANCH}"
+                                branch    : "${branch}",
+                                image_name: "${imageName}",
+                                version   : "${version}",
+                                mvn_args  : "${mvnArgs}"
+
                         ]
             }
+
             stage("Allure report") {
                 allure(
                         results: [[path: "allure-results"]],
@@ -22,6 +43,7 @@ node("runner") {
                         reportBuildPolicy: "ALWAYS"
                 )
             }
+
             stage("Send notifications") {
                 def summary = junit testResults: "**/surefire-reports/*.xml"
                 String message = """Test Summary

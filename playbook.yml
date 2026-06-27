@@ -3,8 +3,8 @@
   tasks:
     - name: Pull test image
       community.docker.docker_image:
-        name: "localhost:5005/{{ branch }}"
-        tag: latest
+        name: "localhost:5005/{{ image_name }}"
+        tag: "{{ version }}"
         source: pull
 
     - name: Get current workdir
@@ -26,10 +26,11 @@
     - name: Run tests
       ignore_errors: true
       community.docker.docker_container:
-        name: "{{ branch }}-tests"
-        image: "localhost:5005/{{ branch }}:latest"
+        name: "{{ image_name }}-tests"
+        image: "localhost:5005/{{ image_name }}:{{ version }}"
         state: started
         network_mode: host
+        command: "{{ mvn_args | trim if mvn_args | default('') | trim | length > 0 else omit }}"
         mounts:
           - type: bind
             source: "/var/run/docker.sock"
