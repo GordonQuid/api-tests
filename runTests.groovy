@@ -3,6 +3,7 @@ node("runner") {
         def branch = params.BRANCH
         def imageName = params.IMAGE_NAME
         def version = params.VERSION
+        def mvnArgs = params.MVN_ARGS
 
         wrap([$class: "BuildUser"]) {
             currentBuild.description = """
@@ -29,7 +30,9 @@ VERSION: ${version}
                         extraVars: [
                                 branch    : "${branch}",
                                 image_name: "${imageName}",
-                                version   : "${version}"
+                                version   : "${version}",
+                                mvn_args  : "${mvnArgs}"
+
                         ]
             }
 
