@@ -31,7 +31,7 @@
         state: started
         network_mode: host
         command:
-          - "-Dbase.url={{ base_url }}"
+          - "{{ mvn_args }}"
         mounts:
           - type: bind
             source: "/var/run/docker.sock"
