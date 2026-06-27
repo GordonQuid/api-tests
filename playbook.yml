@@ -30,8 +30,7 @@
         image: "localhost:5005/{{ image_name }}:{{ version }}"
         state: started
         network_mode: host
-        command:
-          - "{{ mvn_args }}"
+        command: "{{ mvn_args | trim if mvn_args | default('') | trim | length > 0 else omit }}"
         mounts:
           - type: bind
             source: "/var/run/docker.sock"
